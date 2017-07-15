@@ -117,5 +117,8 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
-Content/
+Content/Maps
+Content/Images
+Content/Textures
+Content/HeightMaps
 *umap
