@@ -32,12 +32,12 @@ private:
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation);
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrossHairLocationX = 0.5f;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrossHairLocationY = 0.333f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000.0f;
 };
