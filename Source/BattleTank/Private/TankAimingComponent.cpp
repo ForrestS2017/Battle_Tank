@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -20,6 +21,11 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 
@@ -35,9 +41,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution)	//Calculate OutLaunchVelocity
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		auto Time = GetWorld()->GetTimeSeconds();
-		//Move barrel frame-specific amount (GIVEN MAX ELEVATION SPEED)
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found"), Time);
+		//auto Time = GetWorld()->GetTimeSeconds();
+		////Move barrel frame-specific amount (GIVEN MAX ELEVATION SPEED)
+		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found"), Time);
 		MoveBarrel(AimDirection);
 	}
 	else
@@ -54,8 +60,11 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAtRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAtRotator - BarrelRotator;
+	DeltaRotator = DeltaRotator.GetNormalized();
 
 	//Move barrel frame-specific amount (GIVEN MAX ELEVATION SPEED)
-	Barrel->Elevate(5.0);	//TODO remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch);	//TODO remove magic number
+	Turret->Rotate(DeltaRotator.Yaw);
 
 }
+
