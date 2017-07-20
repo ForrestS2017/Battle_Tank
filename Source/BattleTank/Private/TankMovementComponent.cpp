@@ -14,9 +14,21 @@ void UTankMovementComponent::Initialize(UTankTrack* TrackToSet_L, UTankTrack* Tr
 
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	//No need to call Super as we're replacing the functionality of the original
+	
+	//We get safe normals so when we find the dotproduct, we dont get anything greater than 1
+	auto TankForwardDirection = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	//Now, our dot product
+	auto ForwardThrow = FVector::DotProduct(TankForwardDirection, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName, *MoveVelocityString)
+}
+
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-
 	Track_L->SetThrottle(Throw);
 	Track_R->SetThrottle(Throw);
 
