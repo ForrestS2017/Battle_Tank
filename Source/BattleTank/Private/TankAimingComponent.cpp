@@ -48,7 +48,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No Aim Solve. Velocity insufficient"));
+		//UE_LOG(LogTemp, Warning, TEXT("No Aim Solve. Velocity insufficient"));
 	}
 	//If no solution, do nothing
 	

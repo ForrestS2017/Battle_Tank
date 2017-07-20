@@ -38,7 +38,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	}
 	else 
 	{ 
-		UE_LOG(LogTemp, Warning, TEXT("No Hit Location") );
+		//UE_LOG(LogTemp, Warning, TEXT("No Hit Location") );
 		return; 
 	}
 }
