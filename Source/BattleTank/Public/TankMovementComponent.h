@@ -26,9 +26,9 @@ public:
 	UFUNCTION(BluePrintCallable, Category = Input)
 		void IntendTurnRight(float Throw);
 
-	virtual void RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed) override;
-
 private:
+	// Called from the path finding logic by the AI controllers
+	virtual void RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed) override;
 
 	UTankTrack* Track_L = nullptr;
 	UTankTrack* Track_R = nullptr;

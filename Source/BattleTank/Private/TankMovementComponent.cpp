@@ -21,10 +21,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	//We get safe normals so when we find the dotproduct, we dont get anything greater than 1
 	auto TankForwardDirection = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
-	//Now, our dot product
+	/* Now, our dot product will yield the parallelness of the two vectors. parallel same direction = 1 = go forward */
 	auto ForwardThrow = FVector::DotProduct(TankForwardDirection, AIForwardIntention);
 	IntendMoveForward(ForwardThrow);
-	//UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName, *MoveVelocityString)
+	/* Cross product will yield how perpendicular the vectors are. If they're perpendicular you yield 1 */
+	auto RightThrow = FVector::CrossProduct(TankForwardDirection, AIForwardIntention).Z;
+	IntendTurnRight(RightThrow);
+	UE_LOG(LogTemp, Warning, TEXT("%s: Right: %f, Forward: %f"), *GetOwner()->GetName(), ForwardThrow, RightThrow);
+
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
