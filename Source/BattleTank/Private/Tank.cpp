@@ -17,13 +17,18 @@ ATank::ATank()
 	// No need to protect pointrs as added as null at construction
 	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
+
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s CNSTR_C++ Construct"), *TankName);
 }
 
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s CNSTR_C++ BeginPlay"), *TankName);
 }
 
 // Called to bind functionality to input
@@ -35,6 +40,7 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) return;
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 

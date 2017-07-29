@@ -27,7 +27,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	/* Cross product will yield how perpendicular the vectors are. If they're perpendicular you yield 1 */
 	auto RightThrow = FVector::CrossProduct(TankForwardDirection, AIForwardIntention).Z;
 	IntendTurnRight(RightThrow);
-	UE_LOG(LogTemp, Warning, TEXT("%s: Right: %f, Forward: %f"), *GetOwner()->GetName(), ForwardThrow, RightThrow);
+	//UE_LOG(LogTemp, Warning, TEXT("%s: Right: %f, Forward: %f"), *GetOwner()->GetName(), ForwardThrow, RightThrow);
 
 }
 
