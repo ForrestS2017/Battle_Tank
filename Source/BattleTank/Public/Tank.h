@@ -21,16 +21,11 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BluePrintCallable, Category = Setup)
-		void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BluePrintCallable, Category = Setup)
-		void SetTurretReference(UTankTurret* TurretToSet);
-
 	UFUNCTION(BluePrintCallable, Category = Firing)
 		void Fire();
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
