@@ -40,15 +40,16 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) return;
+	if (!ensure(TankAimingComponent)) return;
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) >= ReloadTimeInSeconds;
-	
-	if (Barrel && isReloaded)
+	if (!ensure(Barrel)) return;
+
+	if (isReloaded)
 	{
 		//Spawn projectile at tip of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
