@@ -22,11 +22,35 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	//So first fire is after reload
+	Super::BeginPlay();
+
+	
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
+
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 
 	if (!ensure(Barrel)) return;
-	//UE_LOG(LogTemp, Warning, TEXT("%s aiming at : Hit Location: %s from %s"), *OurTankName, *HitLocation.ToString(), *BarrelLocation.ToString());
 	FVector OutLaunchVelocity;	//Out parameter of a vector with launch speed & direction
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	
@@ -36,15 +60,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 	if (bHaveAimSolution)	//Calculate OutLaunchVelocity
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		//auto Time = GetWorld()->GetTimeSeconds();
-		////Move barrel frame-specific amount (GIVEN MAX ELEVATION SPEED)
-		//UE_LOG(LogTemp, Warning, TEXT("%f: Aim solution found"), Time);
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrel(AimDirection);
-	}
-	else
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("No Aim Solve. Velocity insufficient"));
 	}
 	//If no solution, do nothing
 	
@@ -65,12 +82,21 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01);
+}
+
+
+
 void UTankAimingComponent::Fire()
 {
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) >= ReloadTimeInSeconds;
-	if (!ensure(Barrel && ProjectileBlueprint)) return;
+	if (!ensure(Barrel)) return;
+	if (!ensure(ProjectileBlueprint)) return;
 
-	if (isReloaded)
+	if (FiringState != EFiringState::Reloading)
 	{
 		//Spawn projectile at tip of barrel
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -81,5 +107,6 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		FiringState = EFiringState::Reloading;
 	}
 }

@@ -8,21 +8,12 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	//auto ControlledTank = GetControlledTank();
-	/*if (!ControlledTank) {
-		UE_LOG(LogTemp, Error, TEXT("NO CONTROLLED TANK"));
-		return;
-	}*/
 	
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) return;
 	FoundAimingComponent(AimingComponent);	// BpIE
 }
 
-//void ATankPlayerController::FoundAimingComponent(UTankAimingComponent* AimCompRef)
-//{
-//
-//}
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
