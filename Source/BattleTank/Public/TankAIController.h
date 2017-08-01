@@ -19,9 +19,13 @@ private:
 
 	virtual void BeginPlay() override;
 
+#if ENABLE_VISUAL_LOG
 	virtual void Tick(float DeltaSeconds) override;
+#endif
+
 
 	//How close can the AI tank get
+	UPROPERTY(EditAnywhere, Category = AI)
 	float AcceptanceRadius = 300;
 
 };

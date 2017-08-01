@@ -13,15 +13,18 @@ void ATankAIController::BeginPlay()
 	
 }
 
+#if ENABLE_VISUAL_LOG
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto ControlledTank = GetPawn();
 
-	if (ensure(PlayerTank && ControlledTank)) {
-		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius in cm
-		
+	if (ensure(PlayerTank && ControlledTank)) 
+	{
+
+		auto testing = MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius in cm
+
 		auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 
 		if (!ensure(AimingComponent)) { return; }
@@ -29,6 +32,7 @@ void ATankAIController::Tick(float DeltaTime)
 		AimingComponent->AimAt(PlayerTank->GetActorLocation());
 		AimingComponent->Fire();
 	}
+#endif
 }
 
 
