@@ -40,6 +40,8 @@ public:
 		void Fire();
 
 	void MoveBarrel(FVector AimDirection);
+	
+	EFiringState GetFiringState() const;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = State)

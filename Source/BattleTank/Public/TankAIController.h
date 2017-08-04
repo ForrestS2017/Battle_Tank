@@ -25,7 +25,7 @@ private:
 
 
 	//How close can the AI tank get
-	UPROPERTY(EditAnywhere, Category = AI)
+	UPROPERTY(EditAnywhere, Category = Setup) // Consider EditDefaultsOnly
 	float AcceptanceRadius = 300;
 
 };

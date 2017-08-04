@@ -79,8 +79,8 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	DeltaRotator = DeltaRotator.GetNormalized();
 
 	//Move barrel frame-specific amount (GIVEN MAX ELEVATION SPEED)
-	Barrel->Elevate(DeltaRotator.Pitch);	//TODO remove magic number
-	Turret->Rotate(DeltaRotator.Yaw);
+	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate( DeltaRotator.Yaw );
 
 }
 
@@ -88,7 +88,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.03);
 }
 
 
@@ -111,4 +111,9 @@ void UTankAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 		FiringState = EFiringState::Reloading;
 	}
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
 }
