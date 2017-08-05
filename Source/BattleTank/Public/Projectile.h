@@ -12,7 +12,22 @@ class BATTLETANK_API AProjectile : public AActor
 	GENERATED_BODY()
 
 private: 
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		UParticleSystemComponent* LaunchBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		UParticleSystemComponent* ImpactBlast = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = Components)
+		URadialForceComponent* ExplosionForce = nullptr;
 
 public:	
 	// Sets default values for this actor's properties
@@ -21,9 +36,6 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
-
 	void LaunchProjectile(float LaunchSpeed);
 	
 };
