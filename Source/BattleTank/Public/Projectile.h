@@ -29,6 +29,14 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Components)
 		URadialForceComponent* ExplosionForce = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		float DestroyDelay = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+		float ProjectileDamage = 50.0f;
+
+	void OnTimerExpire();
+
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
@@ -37,5 +45,7 @@ public:
 	virtual void BeginPlay() override;
 	
 	void LaunchProjectile(float LaunchSpeed);
+
+
 	
 };

@@ -28,4 +28,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = Setup) // Consider EditDefaultsOnly
 	float AcceptanceRadius = 300;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 };
