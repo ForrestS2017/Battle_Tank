@@ -25,6 +25,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Health)
 		int32 CurrentHealth = StartingHealth;
 
+	virtual void BeginPlay() override;
+
 public:
 	// Called by engine when actor is damaged
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;

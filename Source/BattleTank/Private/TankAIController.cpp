@@ -23,12 +23,20 @@ void ATankAIController::SetPawn(APawn* InPawn)
 		if (!ensure(PossessedTank)) return;
 
 		// Subscribe our local method to the tank's death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+
 	}
 
 
 }
 
-#if ENABLE_VISUAL_LOG
+void ATankAIController::OnPossessedTankDeath()
+{
+	if (!ensure(GetPawn())) return;	// TODO remove ensure if OK
+	GetPawn()->DetachFromControllerPendingDestroy();
+
+}
+
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -51,7 +59,6 @@ void ATankAIController::Tick(float DeltaTime)
 			AimingComponent->Fire();
 		}
 	}
-#endif
 }
 
 
